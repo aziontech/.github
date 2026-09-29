@@ -1,0 +1,10 @@
+# CODEOWNERS — aziontech/.github
+# These files are the default for every repository in the organization.
+
+*                                   @aziontech/team-delivery-engineering
+
+SECURITY.md                         @aziontech/security-office
+/.github/                           @aziontech/team-delivery-engineering @aziontech/security-office
+/.github/workflows/                 @aziontech/team-delivery-engineering @aziontech/security-office
+/CODEOWNERS                         @aziontech/team-delivery-engineering @aziontech/security-office
+LICENSE                             @aziontech/team-delivery-engineering
