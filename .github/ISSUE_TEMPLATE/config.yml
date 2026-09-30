@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/aziontech/.github/blob/main/SECURITY.md
+    about: Do not open a public issue. Email security@azion.com as described in the Security Policy.
+  - name: Azion product support
+    url: https://www.azion.com/
+    about: Questions about Azion products and your account go to Azion support, not to GitHub issues.
