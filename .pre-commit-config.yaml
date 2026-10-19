@@ -1,0 +1,23 @@
+default_install_hook_types: [pre-commit]
+# Baseline de seguranca da Azion (LEFT-05/06), secrets-first.
+# Objetivo unico: segredo nunca sai da estacao. Lint fica no CI (azion-action-quality).
+# Fonte canonica: aziontech/.github. Instale na estacao uma vez com: pre-commit install
+# Escaneia so o diff staged, entao pega segredo novo a partir do commit, nao varre historico.
+repos:
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+  - repo: local
+    hooks:
+      - id: block-sensitive-files
+        name: Bloqueia arquivos sensiveis (env real, chaves, keystores)
+        entry: "Arquivo sensivel nao deve ser commitado. Rotacione o segredo e use o Vault."
+        language: fail
+        files: '(^|/)\.env$|(^|/)\.env\.(prod|production|local|dev|develop|staging|stage|secret)$|\.(p12|pfx|jks|keystore|kdbx)$|(^|/)(id_rsa|id_dsa|id_ecdsa)$|(^|/)credentials\.json$'
+        exclude: '(^|/)(tests?|specs?|examples?|fixtures?|mocks?|vendor|node_modules)/'
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+        args: ['--maxkb=1024']

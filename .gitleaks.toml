@@ -1,0 +1,22 @@
+# .gitleaks.toml - BASE canonica HOMOLOGADA (LEFT-05/06). gitleaks v8.30.1 (igual ao CI).
+# Fonte canonica: aziontech/.github. O allowlist especifico de cada repo fica no
+# .gitleaks.toml do proprio repo; esta base padroniza so o tronco comum.
+title = "Azion gitleaks base - Security Office"
+[extend]
+useDefault = true
+[allowlist]
+description = "Org-wide: apenas paths universalmente seguros. FP especifico fica no .gitleaks.toml do proprio repo."
+paths = [
+  '''(^|/)(vendor|node_modules|dist|build|\.venv|target)/''',
+  '''\.(lock|snap)$''',
+]
+regexes = []
+[[rules]]
+id = "azion-assigned-secret-literal"
+description = "Secret-named variable assigned an opaque quoted literal"
+regex = '''(?i)\b[a-z0-9_-]{0,32}(?:token|secret|passwd|password|api[_-]?key|access[_-]?key|credential)[a-z0-9_-]{0,32}[ \t]*(?:[:?+]?=|:)[ \t]*["']([A-Za-z0-9+/=_-]{16,})["']'''
+secretGroup = 1
+entropy = 3.5
+keywords = ["token","secret","password","passwd","api_key","apikey","access_key","credential"]
+[rules.allowlist]
+regexes = ['''your_.*_here''', '''(?i)changeme''', '''(?i)example''', '''(?i)placeholder''']

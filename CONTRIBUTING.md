@@ -20,9 +20,18 @@ does not publish its own `CONTRIBUTING.md`.
    Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
 4. Add or update tests for the behavior you change, and make sure CI is green.
 5. Fill in the pull request template, including the version bump (`#major`, `#minor`, `#patch` or `#none`).
-6. Do not commit secrets, credentials or internal hostnames. Secret scanning blocks pushes that contain them.
+6. Do not commit secrets, credentials or internal hostnames. Secret scanning blocks pushes that contain them, and the shared pre-commit hook (see Local setup) catches them before the push.
 
 Pull requests are merged after review by the code owners of the changed files.
+
+## Local setup
+
+Install the shared pre-commit hook once per machine, so secret scanning runs before you push, not only in CI:
+
+    pipx install pre-commit   # or: pip install --user pre-commit
+    pre-commit install
+
+The baseline (`.pre-commit-config.yaml` and `.gitleaks.toml`) is the one published in this repository. It runs gitleaks on the staged diff and blocks a commit that introduces a secret. CI remains the enforced backstop. See [docs/pre-commit.md](docs/pre-commit.md) for details and exceptions.
 
 ## Versioning
 
