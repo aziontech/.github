@@ -11,6 +11,7 @@ A file in a repository always takes precedence over the default here.
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Branches, Conventional Commits, pull requests, versioning |
 | [`.github/ISSUE_TEMPLATE/`](.github/ISSUE_TEMPLATE/) | Bug report and feature request forms; blank issues disabled |
 | [`.github/pull_request_template.md`](.github/pull_request_template.md) | Pull request description |
+| [`docs/commit-signing.md`](docs/commit-signing.md) | Signing commits with an SSH key (not inherited; linked from `CONTRIBUTING.md`) |
 
 `CODEOWNERS` is **not** inherited by other repositories: each repository keeps its own. The `CODEOWNERS` here only
 covers this repository.

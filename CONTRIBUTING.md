@@ -21,6 +21,8 @@ does not publish its own `CONTRIBUTING.md`.
 4. Add or update tests for the behavior you change, and make sure CI is green.
 5. Fill in the pull request template, including the version bump (`#major`, `#minor`, `#patch` or `#none`).
 6. Do not commit secrets, credentials or internal hostnames. Secret scanning blocks pushes that contain them.
+7. Sign your commits. Protected branches require verified signatures: see
+   [Signing commits with an SSH key](https://github.com/aziontech/.github/blob/main/docs/commit-signing.md).
 
 Pull requests are merged after review by the code owners of the changed files.
 
