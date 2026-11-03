@@ -6,7 +6,27 @@ merge that carries a commit without a verified signature is rejected. The rule i
 Setup takes about five minutes and can reuse the SSH key you already push with.
 
 - Commits made in the GitHub web interface (web edits, squash merges) are signed by GitHub. They need nothing.
+- Commits already on a protected branch are not checked again. The rule applies to what is pushed or merged from now on.
 - SSH signing needs git 2.34 or later (`git --version`).
+
+## Merging pull requests
+
+How a pull request can be merged into a protected branch once the rule is enforced:
+
+| Merge method | Works? | Why |
+|---|---|---|
+| Squash and merge | Yes, even with unsigned commits on the branch | GitHub creates and signs the squashed commit |
+| Create a merge commit | Only if every commit on the branch is signed | The branch's commits land on the protected branch as they are |
+| Rebase and merge | No | Rebasing rewrites the commits and GitHub cannot sign them: `Rebase merges cannot be automatically signed by GitHub` |
+
+Repositories that rebase to keep a linear history should squash instead: a squash merge is linear too.
+
+`gh pr merge --squash` can refuse a pull request with unsigned commits, because the CLI reads the pull request as
+blocked before asking GitHub. The merge itself is allowed: use the web interface, or the API:
+
+```bash
+gh api -X PUT repos/aziontech/<repo>/pulls/<number>/merge -f merge_method=squash
+```
 
 ## 1. Have an SSH key
 
@@ -147,5 +167,7 @@ The `reason` field from the verification command (step 4) usually names the caus
 | `unsupported value for gpg.format: ssh` | git older than 2.34 | Upgrade git (`brew upgrade git`) |
 | `agent refused operation`, or a passphrase prompt on every commit | Key not loaded in the ssh-agent | `ssh-add --apple-use-keychain ~/.ssh/id_ed25519` |
 | Push rejected with `Commits must have verified signatures` | An unsigned commit on the branch | Sign the commits again (Special cases) |
+| Merge refused with `Commits must have verified signatures` | Merge commit with unsigned commits on the branch | Squash and merge, or sign the commits again |
+| Merge refused with `Rebase merges cannot be automatically signed by GitHub` | Rebase and merge on a protected branch | Squash and merge (Merging pull requests) |
 
 Azion engineers with questions not answered here: ask `@aziontech/team-delivery-engineering`.
